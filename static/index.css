@@ -226,3 +226,38 @@ input[type="number"]::-webkit-inner-spin-button {
 .btn .spinner-border {
     margin-left: 8px;
 }
+
+/* Developer and Project Info Section */
+footer {
+    margin-top: 50px;
+}
+
+footer .card {
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+}
+
+footer .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+footer h2 {
+    color: #1a73e8;
+    font-weight: 500;
+}
+
+footer p {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+footer .btn-outline-primary {
+    color: #1a73e8;
+    border-color: #1a73e8;
+}
+
+footer .btn-outline-primary:hover {
+    background-color: #1a73e8;
+    color: #ffffff;
+}

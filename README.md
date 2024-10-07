@@ -1,28 +1,78 @@
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fexamples%2Ftree%2Fmain%2Fpython%2Fflask3&demo-title=Flask%203%20%2B%20Vercel&demo-description=Use%20Flask%203%20on%20Vercel%20with%20Serverless%20Functions%20using%20the%20Python%20Runtime.&demo-url=https%3A%2F%2Fflask3-python-template.vercel.app%2F&demo-image=https://assets.vercel.com/image/upload/v1669994156/random/flask.png)
+# QR Code Generator
 
-# Flask + Vercel
+This is a web application that allows users to generate customized QR codes quickly and easily. It's built with Flask on the backend and uses JavaScript for dynamic frontend interactions.
 
-This example shows how to use Flask 3 on Vercel with Serverless Functions using the [Python Runtime](https://vercel.com/docs/concepts/functions/serverless-functions/runtimes/python).
+## Features
 
-## Demo
+- Generate QR codes from any URL
+- Customize QR code color
+- Adjust box size, border size, and output size
+- Download generated QR codes as PNG files
+- Responsive design for desktop and mobile use
 
-https://flask-python-template.vercel.app/
+## Live Demo
 
-## How it Works
+You can try out the live application [here](https://qrcode-generator-burakunal28.vercel.app).
 
-This example uses the Web Server Gateway Interface (WSGI) with Flask to enable handling requests on Vercel with Serverless Functions.
+## Developer
 
-## Running Locally
+This project was developed by Burak Ünal. You can find more of his work on his GitHub profile: [https://github.com/burakunal28](https://github.com/burakunal28)
 
-```bash
-npm i -g vercel
-vercel dev
-```
+## Technology Stack
 
-Your Flask application is now available at `http://localhost:3000`.
+- Backend: Flask (Python)
+- Frontend: HTML, CSS, JavaScript
+- Styling: Bootstrap 5
+- Deployment: Vercel
 
-## One-Click Deploy
+## Local Development
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=vercel-examples):
+To run this project locally:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fexamples%2Ftree%2Fmain%2Fpython%2Fflask3&demo-title=Flask%203%20%2B%20Vercel&demo-description=Use%20Flask%203%20on%20Vercel%20with%20Serverless%20Functions%20using%20the%20Python%20Runtime.&demo-url=https%3A%2F%2Fflask3-python-template.vercel.app%2F&demo-image=https://assets.vercel.com/image/upload/v1669994156/random/flask.png)
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/burakunal28/qrcode-generator.git
+   cd qrcode-generator
+   ```
+
+2. Install the required Python packages:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Run the Flask application:
+
+   ```bash
+   python api/index.py
+   ```
+
+4. Open your browser and navigate to `http://localhost:5000`
+
+## Deployment
+
+This project is configured for easy deployment on Vercel. The `vercel.json` file in the root directory specifies the build configuration.
+
+To deploy:
+
+1. Install the Vercel CLI: `npm i -g vercel`
+2. Run `vercel` in the project root directory
+3. Follow the prompts to deploy your application
+
+## Project Structure
+
+- `api/index.py`: Main Flask application
+- `static/index.js`: Frontend JavaScript for dynamic interactions
+- `static/index.css`: Custom CSS styles
+- `templates/index.html`: HTML template for the web interface
+- `requirements.txt`: Python dependencies
+- `vercel.json`: Vercel deployment configuration
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).

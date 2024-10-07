@@ -1,1 +1,8 @@
+# Web framework for serving the application
 Flask==3.0.3
+
+# QR code generation library with PIL support
+qrcode[pil]==7.3
+
+# Python Imaging Library for image processing
+Pillow==10.2.0

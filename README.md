@@ -14,10 +14,6 @@ This is a web application that allows users to generate customized QR codes quic
 
 You can try out the live application [here](https://qrcode-generator-burakunal28.vercel.app).
 
-## Developer
-
-This project was developed by Burak Ünal. You can find more of his work on his GitHub profile: [https://github.com/burakunal28](https://github.com/burakunal28)
-
 ## Technology Stack
 
 - Backend: Flask (Python)
@@ -72,6 +68,10 @@ To deploy:
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Developer 👨‍💻
+
+Created by [Burak Ünal](https://burakunal28.vercel.app/)
 
 ## License
 

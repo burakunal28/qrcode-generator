@@ -3,113 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
+    <title>QR Code Generator - Create Custom QR Codes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
-    <title>QR Generator</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Material+Icons&display=block" rel="stylesheet">
 </head>
-<body class="bg-light">
-    <div class="container-fluid d-flex flex-column justify-content-center align-items-center py-5">
-        <h1 class="text-center mb-5">QR Code Generator</h1>
-        <div class="row g-4 w-100" style="max-width: 1000px;">
-            <!-- Customization Card -->
-            <div class="col-lg-6">
-                <div class="card shadow-sm border-0 rounded-4">
-                    <div class="card-body p-4 p-md-5">
-                        <!-- URL Input -->
-                        <div class="mb-4">
-                            <label for="urlInput" class="form-label">Enter URL</label>
-                            <input type="text" class="form-control form-control" id="urlInput" placeholder="https://example.com">
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <h1 class="text-4xl font-bold text-center mb-8 text-gray-800">Create Custom QR Codes</h1>
+        <div id="urlAlertContainer"></div>
+        <div id="fileNameAlertContainer"></div>
+        <form id="qrForm" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-white shadow-lg rounded-lg p-6">
+                <div class="space-y-6">
+                    <div>
+                        <label for="urlInput" class="block text-sm font-medium text-gray-700">Enter URL</label>
+                        <input type="url" id="urlInput" name="url" 
+                               placeholder="https://example.com" 
+                               required
+                               pattern="https?://.+"
+                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="colorInput" class="block text-sm font-medium text-gray-700">Line color</label>
+                            <input type="color" id="colorInput" name="color" 
+                                   value="#000000" 
+                                   class="mt-1 block w-full h-10 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
-                        <div class="row mb-4">
-                            <!-- Color Picker -->
-                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                <label for="colorInput" class="form-label">Line color</label>
-                                <input type="color" class="form-control form-control-color w-100" id="colorInput" title="Choose your color">
-                            </div>
-                            <!-- Output File Name Input -->
-                            <div class="col-sm-6">
-                                <label for="outputNameInput" class="form-label">Output File Name</label>
-                                <input type="text" class="form-control" id="outputNameInput" placeholder="qr_code">
-                            </div>
+                        <div>
+                            <label for="outputNameInput" class="block text-sm font-medium text-gray-700">Output File Name</label>
+                            <input type="text" id="outputNameInput" name="outputName" 
+                                   placeholder="qr_code" 
+                                   required
+                                   pattern="[a-zA-Z0-9_-]+"
+                                   title="Only letters, numbers, hyphens and underscores are allowed"
+                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
-                        <div class="row">
-                            <!-- Box Size Input -->
-                            <div class="col-sm-4">
-                                <label for="boxSizeInput" class="form-label">
-                                    Box Size
-                                    <span class="d-none d-sm-block text-muted">(1-50)</span>
-                                    <span class="d-sm-none text-muted">(1-50)</span>
-                                </label>
-                                <input type="number" class="form-control" id="boxSizeInput" value="10" min="1" max="50">
-                            </div>
-                            <!-- Border Size Input -->
-                            <div class="col-sm-4">
-                                <label for="borderSizeInput" class="form-label">
-                                    Border Size
-                                    <span class="d-none d-sm-block text-muted">(0-20)</span>
-                                    <span class="d-sm-none text-muted">(0-20)</span>
-                                </label>
-                                <input type="number" class="form-control" id="borderSizeInput" value="4" min="0" max="20">
-                            </div>
-                            <!-- Output Size Input -->
-                            <div class="col-sm-4">
-                                <label for="outputSizeInput" class="form-label">
-                                    Output Size
-                                    <span class="d-none d-sm-block text-muted">(100-1000)</span>
-                                    <span class="d-sm-none text-muted">(100-1000)</span>
-                                </label>
-                                <input type="number" class="form-control" id="outputSizeInput" value="300" min="100" max="1000" step="50">
-                            </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <label for="boxSizeInput" class="block text-sm font-medium text-gray-700">Box Size (1-50)</label>
+                            <input type="range" id="boxSizeInput" name="boxSize" min="1" max="50" value="10" class="mt-1 block w-full">
+                            <span id="boxSizeValue" class="text-sm text-gray-500 mt-1 block">10</span>
+                        </div>
+                        <div>
+                            <label for="borderSizeInput" class="block text-sm font-medium text-gray-700">Border Size (0-20)</label>
+                            <input type="range" id="borderSizeInput" name="borderSize" min="0" max="20" value="4" class="mt-1 block w-full">
+                            <span id="borderSizeValue" class="text-sm text-gray-500 mt-1 block">4</span>
+                        </div>
+                        <div>
+                            <label for="outputSizeInput" class="block text-sm font-medium text-gray-700">Output Size (100-1000)</label>
+                            <input type="range" id="outputSizeInput" name="outputSize" min="100" max="1000" step="50" value="300" class="mt-1 block w-full">
+                            <span id="outputSizeValue" class="text-sm text-gray-500 mt-1 block">300px</span>
+                        </div>
+                        <div>
+                            <label for="textInput" class="block text-sm font-medium text-gray-700">Text Below QR Code</label>
+                            <input type="text" id="textInput" name="text" 
+                                   placeholder="Your Text Here" 
+                                   maxlength="50"
+                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Output Card -->
-            <div class="col-lg-6">
-                <div class="card shadow-sm border-0 rounded-4">
-                    <div class="card-body p-4 p-md-5 justify-content-center align-items-center">
-                        <!-- QR Code Image Placeholder -->
-                        <img id="qrCodeImage" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><rect width='100%' height='100%' fill='%23f8f9fa'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23757575' font-size='20' font-family='Roboto, sans-serif'>Your QR Code</text></svg>" alt="QR Code" class="img-fluid" />
-                    </div>
-                </div>
+            <div id="qrCodeContainer" class="bg-white shadow-lg rounded-lg p-6 flex items-center justify-center min-h-[400px]">
+                <img id="qrCodeImage" src="../static/placeholder.svg" alt="QR Code" class="max-w-full max-h-full object-contain">
             </div>
-            <!-- Buttons Cards: Contains Generate, Clean, and Download buttons -->
-            <div class="col-lg-12">
-                <!-- Alert Container: Displays notifications and error messages -->
-                <div id="alertContainer"></div>
-                <!-- Card containing action buttons -->
-                <div class="card shadow-sm border-0 rounded-4 mb-4">
-                    <div class="card-body p-4 d-flex gap-2">
-                        <!-- Generate Button: Initiates QR code generation process -->
-                        <button type="button" class="btn btn-primary btn-lg w-100" id="generateBtn">
-                            Generate
-                        </button>
-                        <!-- Clean Button: Resets form inputs to default values -->
-                        <button type="button" class="btn btn-outline-danger btn-lg w-100" id="cleanBtn" disabled>
-                            Clean
-                        </button>
-                        <!-- Download Button: Allows user to download generated QR code -->
-                        <button type="button" class="btn btn-outline-success btn-lg w-100" id="downloadBtn" disabled>
-                            Download
-                        </button>
-                    </div>
-                </div>
+        </form>
+        <div class="mt-8 bg-white shadow-lg rounded-lg p-6">
+            <div class="flex flex-col sm:flex-row gap-4">
+                <button id="generateBtn" class="w-full sm:w-1/3 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" disabled>
+                    Generate
+                </button>
+                <button id="cleanBtn" class="w-full sm:w-1/3 bg-red-100 hover:bg-red-200 text-red-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" disabled>
+                    Clean
+                </button>
+                <button id="downloadBtn" class="w-full sm:w-1/3 bg-blue-100 hover:bg-blue-200 text-blue-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" disabled>
+                    Download
+                </button>
             </div>
-
-            <!-- Footer: Displays developer information and GitHub link -->
-            <p class="text-center">This project was developed by Burak Ünal <a href="https://github.com/burakunal28/qrcode-generator" target="_blank" rel="noopener noreferrer">GitHub</a></p>
-                            
         </div>
+        <p class="text-center mt-8 text-sm text-gray-600">
+            This project was developed by Burak Ünal 
+            <a href="https://github.com/burakunal28/qrcode-generator" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:text-blue-600">
+                GitHub
+            </a>
+        </p>
     </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Custom JS -->
     <script src="{{ url_for('static', filename='index.js') }}"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@ import qrcode
 from qrcode.image.styledpil import StyledPilImage
 from qrcode.image.styles.moduledrawers import GappedSquareModuleDrawer
 from qrcode.image.styles.colormasks import SolidFillColorMask
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 import io
 import re
 import os
@@ -28,6 +28,7 @@ def generate_qr():
     box_size = int(data.get('boxSize', 10))
     border_size = int(data.get('borderSize', 4))
     output_size = int(data.get('outputSize', 300))
+    text = data.get('text', '')  # New text field
 
     # Validate and sanitize the output name
     output_name = re.sub(r'[^\w_. -]', '', output_name)
@@ -56,9 +57,34 @@ def generate_qr():
 
     img = img.convert("RGBA")
     
-    # Resize the image to the specified output size
+    # Resize the QR code to the specified output size
     img = img.resize((output_size, output_size), Image.LANCZOS)
-    
+
+    if text:
+        # Define font and size
+        try:
+            font = ImageFont.truetype("arial.ttf", 20)
+        except IOError:
+            font = ImageFont.load_default()
+        
+        # Calculate text size
+        draw = ImageDraw.Draw(img)
+        bbox = draw.textbbox((0, 0), text, font=font)
+        text_width = bbox[2] - bbox[0]
+        text_height = bbox[3] - bbox[1]
+        
+        # Create a new image with space for text
+        total_height = output_size + text_height + 10  # 10 pixels padding
+        new_img = Image.new("RGBA", (output_size, total_height), (255, 255, 255, 0))
+        new_img.paste(img, (0, 0))
+        
+        # Draw text
+        draw = ImageDraw.Draw(new_img)
+        text_position = ((output_size - text_width) // 2, output_size + 5)
+        draw.text(text_position, text, fill=rgb_color, font=font)
+        
+        img = new_img
+
     # Save image to BytesIO object
     img_io = io.BytesIO()
     img.save(img_io, 'PNG')
